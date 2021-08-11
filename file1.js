@@ -1,9 +1,8 @@
 
 var input, Name, Code, Latitude, Longitude, Distance, icons, tp, ds, j, k;
-var p=[];
+var p = [];
 var tree;
-function makeTree()
-{
+function makeTree() {
     fetch("./file1.json")
         .then(response => response.json())
         .then(data => {
@@ -14,14 +13,14 @@ function makeTree()
 
             var distance = function (a, b) {
                 return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
-                 
-              }
-             
-           tree = new kdTree(p, distance, ["x", "y"]);
+
+            }
+
+            tree = new kdTree(p, distance, ["x", "y"]);
 
         })
-       
-          
+
+
 }
 function fun() {
     console.time("My");
@@ -31,12 +30,9 @@ function fun() {
     Latitude = document.getElementById("latitude");
     Longitude = document.getElementById("longitude");
     Distance = document.getElementById("distance");
-    //icons = document.getElementById("i1");
-    //tp = document.getElementById("temp");
-    //ds = document.getElementById("desc");
+
     var j = 0;
     var k = 10000;
-    var p = [];
 
     fetch("./file1.json")
         .then(response => response.json())
@@ -45,22 +41,11 @@ function fun() {
             lat1 = data[input].lat;
             lon1 = data[input].lon;
 
-            // for (var i = 0; i < data.WSData.length; i++) {
-            //     p[i] = { x: data.WSData[i].latitude, y: data.WSData[i].longitude };
 
-            // }
-          
-            // var distance = function (a, b) {
-            //   return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
-               
-            // }
-           
-           // var tree = new kdTree(p, distance, ["x", "y"]);
-            
             var nearest = tree.nearest({ x: lat1, y: lon1 }, 2);
 
-           
-            
+
+
             for (var i = 0; i < nearest.length; i++) {
                 lat2 = nearest[i][0].x;
                 lon2 = nearest[i][0].y;
@@ -81,7 +66,7 @@ function fun() {
                     j = i;
                 }
             }
-           
+
             lati2 = nearest[j][0].x;
             long2 = nearest[j][0].y;
             for (var i = 0; i < data.WSData.length; i++) {
@@ -89,13 +74,11 @@ function fun() {
                     icon = data.WSData[i].icon;
                     temp = data.WSData[i].temprature;
                     desc = data.WSData[i].description;
-                    nam = data.WSData[i]. name;
-                    cod = data.WSData[i]. id;
+                    nam = data.WSData[i].name;
+                    cod = data.WSData[i].id;
                 }
             }
-            //icons.setAttribute("src", "icons1/" + data.WSData[j].icon + ".png");
-            //tp.innerHTML = "Temprature : " + data.WSData[j].temprature + "°C";
-            //ds.innerHTML = "Description : " + data.WSData[j].description;
+
 
 
             Name.innerHTML = "WS_Name : " + nam;
@@ -105,17 +88,17 @@ function fun() {
             Distance.innerHTML = "Distance : " + (k * 0.621371).toFixed(2) + "mi";
             console.timeEnd("My");
 
-           
+
             path(lat1, lon1, lati2, long2, nam, cod);
 
 
         })
         .catch(err => alert("Enter Valid Zipcode! or Please Check Your Internet Connection!"))
 
-    }
-    function deg2rad(deg) {
-        return deg * (Math.PI / 180)
-    }
+}
+function deg2rad(deg) {
+    return deg * (Math.PI / 180)
+}
 
 function initMap() {
     fetch("./file1.json")
@@ -219,7 +202,7 @@ function calculateRoute(directionsService, directionsRenderer, lat1, lon1, la2, 
             if (status === "OK") {
                 directionsRenderer.setDirections(response);
             } //else {
-              //  window.alert("Directions request failed due to " + status);
+            //  window.alert("Directions request failed due to " + status);
             //}
         }
     );
